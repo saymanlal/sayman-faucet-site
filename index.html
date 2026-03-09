@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sayman Faucet - Free Testnet Tokens</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 100%;
+      padding: 48px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .icon {
+      font-size: 72px;
+      margin-bottom: 20px;
+      animation: drip 2s ease-in-out infinite;
+    }
+    
+    @keyframes drip {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .info-box {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    
+    .info-label {
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .info-value {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e6e6e6;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'SF Mono', 'Consolas', monospace;
+      transition: all 0.2s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    }
+    
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .alert {
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 14px;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .alert.show {
+      display: block;
+    }
+    
+    .alert-success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 2px solid #10b981;
+    }
+    
+    .alert-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 2px solid #ef4444;
+    }
+    
+    .alert-warning {
+      background: #fef3c7;
+      color: #92400e;
+      border: 2px solid #f59e0b;
+    }
+    
+    .loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #e6e6e6;
+    }
+    
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .network-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #667eea;
+      color: white;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="icon">🚰</div>
+      <h1>Sayman Faucet <span class="network-badge">TESTNET</span></h1>
+      <p class="subtitle">Get free SAYM tokens for testing on Sayman Testnet and Public Testnet</p>
+    </div>
+
+    <div class="info-box">
+      <div class="info-item">
+        <span class="info-label">Amount per claim</span>
+        <span class="info-value">100 SAYM</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Cooldown period</span>
+        <span class="info-value">10 minutes</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Network</span>
+        <span class="info-value">Testnet & Public Testnet</span>
+      </div>
+    </div>
+
+    <form id="faucet-form">
+      <div class="form-group">
+        <label for="address">Your Wallet Address</label>
+        <input 
+          type="text" 
+          id="address" 
+          placeholder="Enter your 40-character wallet address"
+          maxlength="40"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn" id="claim-btn">
+        Claim 100 SAYM
+      </button>
+    </form>
+
+    <div id="alert" class="alert"></div>
+
+    <div class="footer">
+      <a href="https://sayman-wallet-manager.vercel.app" target="_blank">
+        Need a wallet? Create one here →
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const FAUCET_API = 'https://sayman-faucet.onrender.com/faucet';
+    
+    const form = document.getElementById('faucet-form');
+    const addressInput = document.getElementById('address');
+    const claimBtn = document.getElementById('claim-btn');
+    const alertBox = document.getElementById('alert');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const address = addressInput.value.trim();
+      
+      if (address.length !== 40) {
+        showAlert('Please enter a valid 40-character address', 'error');
+        return;
+      }
+      
+      claimBtn.disabled = true;
+      claimBtn.innerHTML = '<span class="loader"></span> Claiming...';
+      
+      try {
+        const response = await fetch(FAUCET_API, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ address })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          showAlert(
+            `✅ Success! ${data.amount} SAYM sent to your wallet. TX ID: ${data.txId.substring(0, 16)}...`,
+            'success'
+          );
+          addressInput.value = '';
+        } else {
+          showAlert(data.error || 'Failed to claim tokens', 'error');
+        }
+      } catch (error) {
+        showAlert('Network error. Please try again later.', 'error');
+        console.error('Faucet error:', error);
+      } finally {
+        claimBtn.disabled = false;
+        claimBtn.innerHTML = 'Claim 100 SAYM';
+      }
+    });
+    
+    function showAlert(message, type) {
+      alertBox.className = `alert alert-${type} show`;
+      alertBox.textContent = message;
+      
+      setTimeout(() => {
+        alertBox.classList.remove('show');
+      }, 8000);
+    }
+    
+    // Validate address input
+    addressInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toLowerCase().replace(/[^a-f0-9]/g, '');
+    });
+  </script>
+</body>
+</html>
