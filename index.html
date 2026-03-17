@@ -5,227 +5,259 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sayman Faucet - Free Testnet Tokens</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
+    :root {
+      --mono-000: #000000;
+      --mono-100: #1a1a1a;
+      --mono-400: #666666;
+      --mono-800: #cccccc;
+      --mono-900: #e6e6e6;
+      --mono-950: #f5f5f5;
+      --mono-1000: #ffffff;
+      --grid: 8px;
+      --border: 1px solid var(--mono-800);
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--mono-100);
+      background: var(--mono-1000);
+      letter-spacing: -0.01em;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: calc(var(--grid) * 4);
     }
-    
+
     .container {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      max-width: 500px;
+      max-width: 600px;
       width: 100%;
-      padding: 48px;
+      border: var(--border);
+      background: var(--mono-1000);
     }
-    
+
     .header {
-      text-align: center;
-      margin-bottom: 40px;
+      border-bottom: var(--border);
+      padding: calc(var(--grid) * 4);
     }
-    
-    .icon {
-      font-size: 72px;
-      margin-bottom: 20px;
-      animation: drip 2s ease-in-out infinite;
-    }
-    
-    @keyframes drip {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    
+
     h1 {
       font-size: 32px;
-      font-weight: 600;
-      color: #1a1a1a;
-      margin-bottom: 12px;
-    }
-    
-    .subtitle {
-      color: #666;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-    
-    .info-box {
-      background: #f5f5f5;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 32px;
-    }
-    
-    .info-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      font-size: 14px;
-    }
-    
-    .info-label {
-      color: #666;
       font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: calc(var(--grid) * 1);
     }
-    
+
+    .subtitle {
+      color: var(--mono-400);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .network-badge {
+      display: inline-block;
+      padding: calc(var(--grid) * 0.5) calc(var(--grid) * 1.5);
+      background: var(--mono-100);
+      color: var(--mono-1000);
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-left: calc(var(--grid) * 1);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      border-bottom: var(--border);
+    }
+
+    .info-item {
+      padding: calc(var(--grid) * 3);
+      border-right: var(--border);
+      border-bottom: var(--border);
+    }
+
+    .info-item:last-child {
+      border-right: none;
+    }
+
+    .info-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mono-400);
+      margin-bottom: calc(var(--grid) * 1);
+    }
+
     .info-value {
-      color: #1a1a1a;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
     }
-    
+
+    .form-section {
+      padding: calc(var(--grid) * 4);
+      border-bottom: var(--border);
+    }
+
     .form-group {
-      margin-bottom: 24px;
+      margin-bottom: calc(var(--grid) * 3);
     }
-    
+
     label {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #666;
-      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+      color: var(--mono-400);
+      margin-bottom: calc(var(--grid) * 1);
     }
-    
+
     input {
       width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e6e6e6;
-      border-radius: 10px;
+      padding: calc(var(--grid) * 2);
+      border: var(--border);
+      background: var(--mono-1000);
       font-size: 14px;
       font-family: 'SF Mono', 'Consolas', monospace;
-      transition: all 0.2s;
+      color: var(--mono-100);
+      transition: all 0.15s;
     }
-    
+
     input:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: var(--mono-100);
     }
-    
+
+    input::placeholder {
+      color: var(--mono-800);
+    }
+
     .btn {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      padding: calc(var(--grid) * 2);
+      background: var(--mono-100);
+      color: var(--mono-1000);
       border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.15s;
     }
-    
+
     .btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+      background: var(--mono-000);
     }
-    
-    .btn:active:not(:disabled) {
-      transform: translateY(0);
-    }
-    
+
     .btn:disabled {
-      opacity: 0.6;
+      opacity: 0.3;
       cursor: not-allowed;
     }
-    
+
     .alert {
-      padding: 16px;
-      border-radius: 10px;
-      margin-top: 20px;
-      font-size: 14px;
+      padding: calc(var(--grid) * 3);
+      border-bottom: var(--border);
+      font-size: 13px;
       display: none;
-      animation: slideIn 0.3s ease;
+      animation: slideDown 0.2s ease;
     }
-    
-    @keyframes slideIn {
+
+    @keyframes slideDown {
       from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-4px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    
+
     .alert.show {
       display: block;
     }
-    
+
     .alert-success {
-      background: #d1fae5;
-      color: #065f46;
-      border: 2px solid #10b981;
+      background: var(--mono-950);
+      color: var(--success);
+      border-left: 4px solid var(--success);
     }
-    
+
     .alert-error {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 2px solid #ef4444;
+      background: var(--mono-950);
+      color: var(--error);
+      border-left: 4px solid var(--error);
     }
-    
+
     .alert-warning {
-      background: #fef3c7;
-      color: #92400e;
-      border: 2px solid #f59e0b;
+      background: var(--mono-950);
+      color: var(--warning);
+      border-left: 4px solid var(--warning);
     }
-    
+
+    .footer {
+      padding: calc(var(--grid) * 3);
+      text-align: center;
+      font-size: 12px;
+      color: var(--mono-400);
+    }
+
+    .footer a {
+      color: var(--mono-100);
+      text-decoration: none;
+      border-bottom: 1px solid var(--mono-800);
+      transition: all 0.15s;
+    }
+
+    .footer a:hover {
+      border-bottom-color: var(--mono-100);
+    }
+
     .loader {
       display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-top-color: white;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--mono-400);
+      border-top-color: var(--mono-1000);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 8px;
+      animation: spin 0.6s linear infinite;
+      margin-right: calc(var(--grid) * 1);
       vertical-align: middle;
     }
-    
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    
-    .footer {
-      text-align: center;
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid #e6e6e6;
+
+    .icon {
+      font-size: 48px;
+      margin-bottom: calc(var(--grid) * 2);
+      opacity: 0.8;
     }
-    
-    .footer a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    
-    .footer a:hover {
-      text-decoration: underline;
-    }
-    
-    .network-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background: #667eea;
-      color: white;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-left: 8px;
+
+    @media (max-width: 768px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .info-item {
+        border-right: none;
+      }
     }
   </style>
 </head>
@@ -233,47 +265,60 @@
   <div class="container">
     <div class="header">
       <div class="icon">🚰</div>
-      <h1>Sayman Faucet <span class="network-badge">TESTNET</span></h1>
-      <p class="subtitle">Get free SAYM tokens for testing on Sayman Testnet and Public Testnet</p>
+      <h1>
+        SAYMAN FAUCET
+        <span class="network-badge">TESTNET</span>
+      </h1>
+      <p class="subtitle">Free testnet tokens for development and testing</p>
     </div>
 
-    <div class="info-box">
+    <div class="info-grid">
       <div class="info-item">
-        <span class="info-label">Amount per claim</span>
-        <span class="info-value">100 SAYM</span>
+        <div class="info-label">Amount</div>
+        <div class="info-value">100 SAYM</div>
       </div>
       <div class="info-item">
-        <span class="info-label">Cooldown period</span>
-        <span class="info-value">10 minutes</span>
+        <div class="info-label">Cooldown</div>
+        <div class="info-value">10 min</div>
       </div>
       <div class="info-item">
-        <span class="info-label">Network</span>
-        <span class="info-value">Testnet & Public Testnet</span>
+        <div class="info-label">Network</div>
+        <div class="info-value">Public Testnet</div>
       </div>
     </div>
-
-    <form id="faucet-form">
-      <div class="form-group">
-        <label for="address">Your Wallet Address</label>
-        <input 
-          type="text" 
-          id="address" 
-          placeholder="Enter your 40-character wallet address"
-          maxlength="40"
-          required
-        >
-      </div>
-
-      <button type="submit" class="btn" id="claim-btn">
-        Claim 100 SAYM
-      </button>
-    </form>
 
     <div id="alert" class="alert"></div>
 
+    <div class="form-section">
+      <form id="faucet-form">
+        <div class="form-group">
+          <label for="address">Wallet Address</label>
+          <input 
+            type="text" 
+            id="address" 
+            placeholder="Enter 40-character address"
+            maxlength="40"
+            required
+          >
+        </div>
+
+        <button type="submit" class="btn" id="claim-btn">
+          Claim 100 SAYM
+        </button>
+      </form>
+    </div>
+
     <div class="footer">
       <a href="https://sayman-wallet-manager.vercel.app" target="_blank">
-        Need a wallet? Create one here →
+        Create Wallet
+      </a>
+      <span style="margin: 0 calc(var(--grid) * 2); color: var(--mono-800);">•</span>
+      <a href="https://sayman.onrender.com" target="_blank">
+        Explorer
+      </a>
+      <span style="margin: 0 calc(var(--grid) * 2); color: var(--mono-800);">•</span>
+      <a href="https://github.com/saymanlal/SAYMAN" target="_blank">
+        GitHub
       </a>
     </div>
   </div>
@@ -292,7 +337,7 @@
       const address = addressInput.value.trim();
       
       if (address.length !== 40) {
-        showAlert('Please enter a valid 40-character address', 'error');
+        showAlert('Address must be exactly 40 characters', 'error');
         return;
       }
       
@@ -312,7 +357,7 @@
         
         if (data.success) {
           showAlert(
-            `✅ Success! ${data.amount} SAYM sent to your wallet. TX ID: ${data.txId.substring(0, 16)}...`,
+            `✓ Success! ${data.amount} SAYM sent to ${address.substring(0, 8)}...${address.substring(32)}`,
             'success'
           );
           addressInput.value = '';
@@ -320,7 +365,7 @@
           showAlert(data.error || 'Failed to claim tokens', 'error');
         }
       } catch (error) {
-        showAlert('Network error. Please try again later.', 'error');
+        showAlert('Network error. Please try again.', 'error');
         console.error('Faucet error:', error);
       } finally {
         claimBtn.disabled = false;
@@ -334,10 +379,10 @@
       
       setTimeout(() => {
         alertBox.classList.remove('show');
-      }, 8000);
+      }, 10000);
     }
     
-    // Validate address input
+    // Validate address input (hex only)
     addressInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.toLowerCase().replace(/[^a-f0-9]/g, '');
     });
