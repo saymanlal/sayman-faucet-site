@@ -275,7 +275,7 @@
     <div class="info-grid">
       <div class="info-item">
         <div class="info-label">Amount</div>
-        <div class="info-value">1000 SAYN</div>
+        <div class="info-value">1000 tSAYN</div>
       </div>
       <div class="info-item">
         <div class="info-label">Cooldown</div>
@@ -296,14 +296,14 @@
           <input 
             type="text" 
             id="address" 
-            placeholder="Enter 40-character address"
-            maxlength="40"
+            placeholder="0x... or 40-char hex address (MetaMask/PUKY/any wallet)"
+            maxlength="42"
             required
           >
         </div>
 
         <button type="submit" class="btn" id="claim-btn">
-          Claim 1000 SAYN
+          Claim 1000 tSAYN
         </button>
       </form>
     </div>
@@ -334,10 +334,13 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const address = addressInput.value.trim();
-      
-      if (address.length !== 40) {
-        showAlert('Address must be exactly 40 characters', 'error');
+      let address = addressInput.value.trim().toLowerCase();
+      // Accept both 0x-prefixed (MetaMask) and bare hex (PUKY/native SAYMAN)
+      if (address.startsWith('0x') || address.startsWith('0X')) {
+        address = address.slice(2);
+      }
+      if (address.length !== 40 || !/^[0-9a-f]+$/.test(address)) {
+        showAlert('Invalid address. Paste your full wallet address (0x... from MetaMask or 40-char hex from PUKY/SAYMAN wallet).', 'error');
         return;
       }
       
@@ -357,7 +360,7 @@
         
         if (data.success) {
           showAlert(
-            `✓ Success! ${data.amount} SAYN sent to ${address.substring(0, 8)}...${address.substring(32)}`,
+            `✓ Success! ${data.amount} tSAYN sent to 0x${address.substring(0, 8)}...${address.substring(32)}`,
             'success'
           );
           addressInput.value = '';
@@ -369,7 +372,7 @@
         console.error('Faucet error:', error);
       } finally {
         claimBtn.disabled = false;
-        claimBtn.innerHTML = 'Claim 1000 SAYN';
+        claimBtn.innerHTML = 'Claim 1000 tSAYN';
       }
     });
     
@@ -382,9 +385,15 @@
       }, 10000);
     }
     
-    // Validate address input (hex only)
+    // Validate address input — allow 0x prefix for MetaMask copy-paste
     addressInput.addEventListener('input', (e) => {
-      e.target.value = e.target.value.toLowerCase().replace(/[^a-f0-9]/g, '');
+      let val = e.target.value;
+      // Allow '0x' or '0X' prefix, then hex chars only
+      if (val.startsWith('0x') || val.startsWith('0X')) {
+        e.target.value = '0x' + val.slice(2).toLowerCase().replace(/[^a-f0-9]/g, '');
+      } else {
+        e.target.value = val.toLowerCase().replace(/[^a-f0-9]/g, '');
+      }
     });
   </script>
 </body>
