@@ -332,12 +332,16 @@
     </div>
 
     <div class="footer">
-      <a href="https://sayman-wallet-manager.vercel.app" target="_blank">
+      <a href="https://wallet-manager-flax.vercel.app" target="_blank">
         Create Wallet
       </a>
       <span style="margin: 0 calc(var(--grid) * 2); color: var(--mono-800);">•</span>
-      <a href="https://sayman.up.railway.app" target="_blank">
+      <a href="https://frontend-zeta-lac-36.vercel.app" target="_blank">
         Explorer
+      </a>
+      <span style="margin: 0 calc(var(--grid) * 2); color: var(--mono-800);">•</span>
+      <a href="https://sayman-docs.vercel.app" target="_blank">
+        Docs
       </a>
       <span style="margin: 0 calc(var(--grid) * 2); color: var(--mono-800);">•</span>
       <a href="https://github.com/saymanlal/SAYMAN" target="_blank">
@@ -351,7 +355,9 @@
   </div>
 
   <script>
-    const FAUCET_API = 'https://sayman-faucet.onrender.com/faucet';
+    const urlParams = new URLSearchParams(window.location.search);
+    const customFaucet = urlParams.get('faucet') || urlParams.get('api') || localStorage.getItem('sayman_faucet_testnet');
+    const FAUCET_API = customFaucet ? customFaucet.replace(/\/$/, '') + (customFaucet.endsWith('/faucet') ? '' : '/faucet') : 'https://sayman-faucet.onrender.com/faucet';
     
     const form = document.getElementById('faucet-form');
     const addressInput = document.getElementById('address');
