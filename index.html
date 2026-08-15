@@ -357,7 +357,14 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const customFaucet = urlParams.get('faucet') || urlParams.get('api') || localStorage.getItem('sayman_faucet_testnet');
-    const FAUCET_API = customFaucet ? customFaucet.replace(/\/$/, '') + (customFaucet.endsWith('/faucet') ? '' : '/faucet') : 'https://sayman-faucet.onrender.com/faucet';
+    
+    const candidateEndpoints = [
+      customFaucet,
+      'https://sayman-faucet.onrender.com/faucet',
+      'https://sayman-faucet.onrender.com/api/faucet',
+      'https://sayman.onrender.com/api/faucet',
+      'https://sayman.up.railway.app/api/faucet'
+    ].filter(Boolean).map(u => u.replace(/\/$/, ''));
     
     const form = document.getElementById('faucet-form');
     const addressInput = document.getElementById('address');
@@ -380,33 +387,41 @@
       claimBtn.disabled = true;
       claimBtn.innerHTML = '<span class="loader"></span> Claiming...';
       
-      try {
-        const response = await fetch(FAUCET_API, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ address })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-          showAlert(
-            `✓ Success! ${data.amount} tSAYN sent to 0x${address.substring(0, 8)}...${address.substring(32)}`,
-            'success'
-          );
-          addressInput.value = '';
-        } else {
-          showAlert(data.error || 'Failed to claim tokens', 'error');
+      let success = false;
+      let lastErrorMessage = 'Network error or faucet busy. Please try again.';
+      
+      for (const endpoint of candidateEndpoints) {
+        try {
+          const targetUrl = endpoint.endsWith('/faucet') ? endpoint : `${endpoint}/faucet`;
+          const response = await fetch(targetUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ address })
+          });
+          
+          const data = await response.json();
+          if (data && data.success) {
+            showAlert(
+              `✓ Success! ${data.amount || '1000'} tSAYN sent to 0x${address.substring(0, 8)}...${address.substring(32)}`,
+              'success'
+            );
+            addressInput.value = '';
+            success = true;
+            break;
+          } else if (data && data.error) {
+            lastErrorMessage = data.error;
+          }
+        } catch (err) {
+          console.warn(`Endpoint ${endpoint} failed:`, err);
         }
-      } catch (error) {
-        showAlert('Network error. Please try again.', 'error');
-        console.error('Faucet error:', error);
-      } finally {
-        claimBtn.disabled = false;
-        claimBtn.innerHTML = 'Claim 1000 tSAYN';
       }
+      
+      if (!success) {
+        showAlert(lastErrorMessage, 'error');
+      }
+      
+      claimBtn.disabled = false;
+      claimBtn.innerHTML = 'Claim 1000 tSAYN';
     });
     
     function showAlert(message, type) {
